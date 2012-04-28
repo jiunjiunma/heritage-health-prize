@@ -15,12 +15,14 @@ starttime <- proc.time()
 #load the data
 ########################################
 
-alldata <- read.csv("claims_per_member.csv")
+alldata <- read.csv("modeling_set1.csv")
 
 
 ########################################
 # arrange the data
 ########################################
+#work around a weird behavior, MemberID_t becomes X.MemberID_t after loading somehow
+colnames(alldata)[1]='MemberID_t'
 
 #identify train and leaderboard data
 trainrows <- which(alldata$trainset == 1)
@@ -95,7 +97,7 @@ hist(prediction, breaks=500)
 ########################################
 submission <- cbind(memberid,prediction)
 colnames(submission) <- c("MemberID","DaysInHospital")
-fnname <- "C:\\GBM_demo1.csv"
+fnname <- "GBM_demo1.csv"
 write.csv(submission, file=fnname, row.names = FALSE)
 
 elapsedtime <- proc.time() - starttime
